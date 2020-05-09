@@ -27,5 +27,9 @@ Router::plugin(
         $routes->delete('/:id', [
             'controller' => 'Resources', 'action' => 'delete'
         ])->setPass(['id']);
+
+        $routes->put('/:id', [
+            'controller' => 'Resources', 'action' => 'update'
+        ])->setPass(['id']);
     }
 );

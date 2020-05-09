@@ -29,6 +29,7 @@ class RestController extends BaseController {
 
     public function delete($id)
     {
+        $this->request->allowMethod(['delete']);
         $entity = $this->Model->get($id);
         if($entity) {
             if($this->Model->delete($entity))
@@ -40,6 +41,7 @@ class RestController extends BaseController {
 
     public function create()
     {
+        $this->request->allowMethod(['post']);
         $entity = $this->Model->newEntity($this->request->getData());
 
         if($this->Model->save($entity))
@@ -54,6 +56,17 @@ class RestController extends BaseController {
 
     public function update($id)
     {
+        $this->request->allowMethod(['put']);
+        $entity = $this->Model->get($id);
+
+        if($entity) 
+        {
+            $entity = $this->Model->patchEntity($entity, $this->request->getData());
+            if($this->Model->save($entity))
+            {
+                $this->parseResult($entity);
+            }
+        }
     }
 
 }
