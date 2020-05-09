@@ -32,8 +32,21 @@ class ResourcesController extends BaseController
         }
     }
 
-    public function add()
+    public function add($resource)
     {
+        $this->request->allowMethod(['post']);
+        $this->configureModel($resource);
+
+        $entity = $this->model->newEntity($this->request->getData());
+
+        if($this->model->save($entity))
+        {
+            $this->parseResult($entity);
+        }
+        else
+        {
+            throw new \Cake\Network\Exception\HttpException('Could not save record', 400);
+        }
     }
 
     public function delete()

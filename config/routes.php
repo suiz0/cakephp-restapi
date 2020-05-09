@@ -20,5 +20,9 @@ Router::plugin(
             'controller' => 'Resources', 'action' => 'view'
         ])
         ->setPass(['resource','id']);
+
+        $routes->post('/', [
+            'controller' => 'Resources', 'action' => 'add'
+        ])->setPass(['resource']);
     }
 );
