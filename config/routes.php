@@ -13,20 +13,19 @@ Router::plugin(
 
         $routes->get('/', [
             'controller' => 'Resources', 'action' => 'index'
-        ])
-        ->setPass(['resource']);
+        ]);
 
         $routes->get('/:id', [
             'controller' => 'Resources', 'action' => 'view'
         ])
-        ->setPass(['resource','id']);
+        ->setPass(['id']);
 
         $routes->post('/', [
-            'controller' => 'Resources', 'action' => 'add'
-        ])->setPass(['resource']);
+            'controller' => 'Resources', 'action' => 'create'
+        ]);
 
         $routes->delete('/:id', [
             'controller' => 'Resources', 'action' => 'delete'
-        ])->setPass(['resource', 'id']);
+        ])->setPass(['id']);
     }
 );

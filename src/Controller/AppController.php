@@ -11,4 +11,12 @@ class AppController extends BaseController
         parent::initialize();
         $this->loadComponent('RequestHandler');
     }
+
+    public function parseResult($data)
+    {
+        $this->set([
+            'response' => $data,
+            '_serialize' => 'response'
+        ]);
+    }
 }
