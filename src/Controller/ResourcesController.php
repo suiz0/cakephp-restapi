@@ -49,8 +49,18 @@ class ResourcesController extends BaseController
         }
     }
 
-    public function delete()
+    public function delete($resource, $id)
     {
+        $this->request->allowMethod(['delete']);
+
+        $this->configureModel($resource);
+        $entity = $this->model->get($id);
+        if($entity) {
+            if($this->model->delete($entity))
+            {
+                $this->parseResult(["OK"]);
+            }
+        }
     }
 
     public function update() 

@@ -24,5 +24,9 @@ Router::plugin(
         $routes->post('/', [
             'controller' => 'Resources', 'action' => 'add'
         ])->setPass(['resource']);
+
+        $routes->delete('/:id', [
+            'controller' => 'Resources', 'action' => 'delete'
+        ])->setPass(['resource', 'id']);
     }
 );
