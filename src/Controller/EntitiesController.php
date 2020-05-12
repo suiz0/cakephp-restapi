@@ -4,7 +4,7 @@ namespace RestAPI\Controller;
 
 use RestAPI\Controller\RestController as BaseController;
 
-class ResourcesController extends BaseController 
+class EntitiesController extends BaseController 
 {
     public function initialize()
     {

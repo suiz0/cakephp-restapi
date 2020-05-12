@@ -2,7 +2,7 @@
 
 $config = [
     'RestAPI' => [
-        'path' => '/api/resources/:resource'
+        'path' => '/api/entities/:resource'
     ]
 ];
 
