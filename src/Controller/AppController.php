@@ -10,6 +10,7 @@ class AppController extends BaseController
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
+        $this->loadComponent('Authentication.Authentication');
     }
 
     public function parseResult($data)
