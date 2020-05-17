@@ -10,6 +10,7 @@ use Cake\Http\MiddlewareQueue;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Cake\Core\BasePlugin;
+use Cake\Core\Configure;
 
 /**
  * Plugin for RestAPI
@@ -20,17 +21,8 @@ class Plugin extends BasePlugin implements AuthenticationServiceProviderInterfac
     {
         $service = new AuthenticationService();
 
-        $service->loadIdentifier('Authentication.JwtSubject', [
-            'resolver' => [
-                'className' => 'Authentication.Orm',
-                'userModel' => 'Users'
-            ]
-        ]);
-
-        $service->loadAuthenticator('Authentication.Jwt', [
-            'returnPayload' => false,
-            'secretKey' => '123456'
-        ]);
+        $service->loadIdentifier('Authentication.JwtSubject', Configure::read('RestAPI.auth.identity'));
+        $service->loadAuthenticator('Authentication.Jwt', Configure::read('RestAPI.auth.jwt'));
 
         return $service;
     }
