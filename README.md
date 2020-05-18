@@ -1,11 +1,40 @@
-# RestAPI plugin for CakePHP
+# Rest API plugin for CakePHP
 
 ## Installation
 
-You can install this plugin into your CakePHP application using [composer](https://getcomposer.org).
+### Manual
 
-The recommended way to install composer packages is:
+Clone or copy the plugin code into your plugins directory.
+```
+git clone https://github.com/suiz0/cakephp-restapi.git
+```
+
+Update composer.json
+```
+{
+    "autoload": {
+        "psr-4": {
+            "Kinbalam\\RestAPI\\": "plugins/Kinbalam/RestAPI/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kinbalam\\RestAPI\\Test\\": "plugins/Kinbalam/RestAPI/tests/"
+        }
+    }
+}
+```
+Load the plugin your Application bootstrap method
 
 ```
-composer require your-name-here/RestAPI
+src\Application.php
+public function bootstrap()
+{
+    $this->addPlugin('Kinbalam/RestAPI');
+}
 ```
+
+
+## Todo
+
+* Installation via composer
