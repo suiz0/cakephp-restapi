@@ -1,4 +1,4 @@
 <?php
 use Cake\Core\Configure;
 
-Configure::load('RestAPI.defaults');
+Configure::load('Kinbalam/RestAPI.defaults');

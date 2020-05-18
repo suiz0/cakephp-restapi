@@ -1,8 +1,8 @@
 <?php
 
-namespace RestAPI\Controller;
+namespace Kinbalam\RestAPI\Controller;
 
-use RestAPI\Controller\RestController as BaseController;
+use Kinbalam\RestAPI\Controller\RestController as BaseController;
 
 class EntitiesController extends BaseController 
 {

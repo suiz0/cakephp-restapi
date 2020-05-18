@@ -1,7 +1,7 @@
 <?php
-namespace RestAPI\Controller;
+namespace Kinbalam\RestAPI\Controller;
 
-use RestAPI\Controller\AppController as BaseController;
+use Kinbalam\RestAPI\Controller\AppController as BaseController;
 
 class RestController extends BaseController {
     public $Model;

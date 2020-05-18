@@ -1,5 +1,5 @@
 {
-    "name": "kinbalam/rest-api",
+    "name": "kinbalam/cakephp-restapi",
     "description": "RestAPI plugin for CakePHP",
     "type": "cakephp-plugin",
     "license": "MIT",
@@ -13,12 +13,12 @@
     },
     "autoload": {
         "psr-4": {
-            "RestAPI\\": "src/"
+            "Kinbalam\\RestAPI\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "RestAPI\\Test\\": "tests/",
+            "kinbalam\\RestAPI\\Test\\": "tests/",
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
         }
     }

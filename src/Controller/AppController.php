@@ -1,6 +1,6 @@
 <?php
 
-namespace RestAPI\Controller;
+namespace Kinbalam\RestAPI\Controller;
 
 use App\Controller\AppController as BaseController;
 

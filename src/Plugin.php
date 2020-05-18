@@ -1,6 +1,6 @@
 <?php
 
-namespace RestAPI;
+namespace Kinbalam\RestAPI;
 
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;

@@ -5,7 +5,7 @@ use Cake\Routing\Route\DashedRoute;
 use Cake\Core\Configure;
 
 Router::plugin(
-    'RestAPI',
+    'Kinbalam/RestAPI',
     ['path' => Configure::read('RestAPI.path')],
     function (RouteBuilder $routes) {
         $routes->fallbacks(DashedRoute::class);
