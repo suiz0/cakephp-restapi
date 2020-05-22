@@ -1,6 +1,14 @@
 # Rest API plugin for CakePHP
 
 ## Installation
+----
+
+### Composer
+You can install this plugin into your CakePHP application using [composer](https://getcomposer.org/):
+
+```
+composer require kinbalam/capephp-restapi:dev-master
+```
 
 ### Manual
 
@@ -34,7 +42,8 @@ public function bootstrap()
 }
 ```
 
-
 ## Todo
+---
 
-* Installation via composer
+* Stable version
+* Further testing
