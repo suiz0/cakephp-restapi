@@ -3,6 +3,7 @@
 namespace Kinbalam\RestAPI\Controller;
 
 use App\Controller\AppController as BaseController;
+use \Cake\Event\Event;
 
 class AppController extends BaseController
 {
@@ -13,11 +14,21 @@ class AppController extends BaseController
         $this->loadComponent('Authentication.Authentication');
     }
 
-    public function parseResult($data)
+    public function beforeRender(Event $event) {
+        parent::beforeRender($event);
+
+        if(isset($this->data)) {
+            $this->parseResult();
+        }
+    }
+
+    public function parseResult()
     {
-        $this->set([
-            'response' => $data,
-            '_serialize' => 'response'
-        ]);
+        if(isset($this->data)) {
+            $this->set([
+                'response' => $this->data,
+                '_serialize' => 'response'
+            ]);
+        }
     }
 }

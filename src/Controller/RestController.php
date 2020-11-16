@@ -13,8 +13,7 @@ class RestController extends BaseController {
 
     public function index()
     {
-        $result = $this->Model->find('all');
-        $this->parseResult($result);
+        $this->data = $this->Model->find('all');
     }
 
     public function view($id)
@@ -23,7 +22,7 @@ class RestController extends BaseController {
 
         if($result)
         {
-            $this->parseResult($result);
+            $this->data = $result;
         }
     }
 
@@ -34,7 +33,7 @@ class RestController extends BaseController {
         if($entity) {
             if($this->Model->delete($entity))
             {
-                $this->parseResult(["OK"]);
+                $this->data = ["OK"];
             }
         }
     }
@@ -46,7 +45,7 @@ class RestController extends BaseController {
 
         if($this->Model->save($entity))
         {
-            $this->parseResult($this->Model->get($entity->id));
+            $this->data = $this->Model->get($entity->id);
         }
         else
         {
@@ -64,7 +63,7 @@ class RestController extends BaseController {
             $entity = $this->Model->patchEntity($entity, $this->request->getData());
             if($this->Model->save($entity))
             {
-                $this->parseResult($entity);
+                $this->data = $entity;
             }
         }
     }
