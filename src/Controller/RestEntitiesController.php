@@ -3,23 +3,30 @@ namespace Kinbalam\RestAPI\Controller;
 
 use Kinbalam\RestAPI\Controller\AppController as BaseController;
 
-class RestController extends BaseController {
+class RestEntitiesController extends BaseController {
     public $Model;
 
     public function initialize()
     {
         parent::initialize();
+        $this->configureModel($this->request->getParam('resource'));
     }
 
     public function index()
     {
+        $this->defineAction('put', '/entites/' . $this->Model->table() . '/%id%', 'update');
+        $this->defineAction('delete', '/entites/' . $this->Model->table() . '/%id%', 'delete');
+        $this->defineAction('get', '/entites/' . $this->Model->table() . '/%id%', 'view');
+        $this->defineAction('post', '/entites/' . $this->Model->table(), 'create');
         $this->data = $this->Model->find('all');
     }
 
     public function view($id)
     {
+        $this->defineAction('put', '/entites/' . $this->Model->table() . '/%id%', 'update');
+        $this->defineAction('delete', '/entites/' . $this->Model->table() . '/%id%', 'delete');
+        
         $result = $this->Model->get($id);
-
         if($result)
         {
             $this->data = $result;
@@ -67,5 +74,8 @@ class RestController extends BaseController {
             }
         }
     }
-
+    protected function configureModel($resource)
+    {
+        $this->Model = $this->loadModel($resource);
+    }
 }

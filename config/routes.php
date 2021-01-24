@@ -12,24 +12,24 @@ Router::plugin(
         $routes->setExtensions(['json']);
 
         $routes->get('/', [
-            'controller' => 'Entities', 'action' => 'index'
+            'controller' => 'RestEntities', 'action' => 'index'
         ]);
 
         $routes->get('/:id', [
-            'controller' => 'Entities', 'action' => 'view'
+            'controller' => 'RestEntities', 'action' => 'view'
         ])
         ->setPass(['id']);
 
         $routes->post('/', [
-            'controller' => 'Entities', 'action' => 'create'
+            'controller' => 'RestEntities', 'action' => 'create'
         ]);
 
         $routes->delete('/:id', [
-            'controller' => 'Entities', 'action' => 'delete'
+            'controller' => 'RestEntities', 'action' => 'delete'
         ])->setPass(['id']);
 
         $routes->put('/:id', [
-            'controller' => 'Entities', 'action' => 'update'
+            'controller' => 'RestEntities', 'action' => 'update'
         ])->setPass(['id']);
     }
 );

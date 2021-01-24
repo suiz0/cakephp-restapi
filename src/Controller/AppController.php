@@ -7,12 +7,21 @@ use \Cake\Event\Event;
 
 class AppController extends BaseController
 {
+    protected $actions = null;
     public function initialize() 
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Authentication.Authentication');
     }
+
+    protected function defineAction($method, $url, $rel) {
+        $this->actions[] = array(
+            'method' => $method,
+            'url' => $url,
+            'rel' => $rel
+        );
+    } 
 
     public function beforeRender(Event $event) {
         parent::beforeRender($event);
@@ -25,10 +34,36 @@ class AppController extends BaseController
     public function parseResult()
     {
         if(isset($this->data)) {
+            $response = $this->data;
+            if(isset($this->actions)) {
+                $collection = $this->data->toArray();
+                if(is_numeric(array_keys($collection)[0])) {
+                    $response = [];
+                    foreach($collection as $data) {
+                        $response[] = array_merge($data->toArray(), array ('__links'=>$this->parseActions($data->toArray())));
+                    }
+                } else {
+                    $response = array_merge($collection, array('__links'=>$this->parseActions($collection)));
+                }
+            }
+
             $this->set([
-                'response' => $this->data,
+                'response' => $response,
                 '_serialize' => 'response'
             ]);
         }
+    }
+
+    private function parseActions($data) {
+        $parsedActions = [];
+        foreach($this->actions as $action) {
+            foreach($data as $key => $value) {
+                $action = str_replace('%' . $key . '%', $value, $action);
+            }
+
+            $parsedActions[] = $action;
+        }
+
+        return $parsedActions;
     }
 }
