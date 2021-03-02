@@ -1,9 +1,9 @@
 <?php
 namespace Kinbalam\RestAPI\Controller\Component;
 
-use Cake\Configure;
+use Cake\Core\Configure;
 use Cake\Controller\Component;
-use FireBase\JWT\JWT;
+use Firebase\JWT\JWT;
 
 class SecurityComponent extends Component 
 {
@@ -12,6 +12,6 @@ class SecurityComponent extends Component
         return JWT::encode([
             "sub" => $user["id"], 
             "name" => $user["description"]
-        ], Configure::read('RestAPI.auth.secretKey'));
+        ], Configure::read('RestAPI.auth.jwt.secretKey'));
     }
 }
