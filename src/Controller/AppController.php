@@ -37,13 +37,15 @@ class AppController extends BaseController
             $response = $this->data;
             if(isset($this->actions)) {
                 $collection = $this->data->toArray();
-                if(is_numeric(array_keys($collection)[0])) {
-                    $response = [];
-                    foreach($collection as $data) {
-                        $response[] = array_merge($data->toArray(), array ('__links'=>$this->parseActions($data->toArray())));
+                if($collection && count($collection) > 0) {
+                    if(is_numeric(array_keys($collection)[0])) {
+                        $response = [];
+                        foreach($collection as $data) {
+                            $response[] = array_merge($data->toArray(), array ('__links'=>$this->parseActions($data->toArray())));
+                        }
+                    } else {
+                        $response = array_merge($collection, array('__links'=>$this->parseActions($collection)));
                     }
-                } else {
-                    $response = array_merge($collection, array('__links'=>$this->parseActions($collection)));
                 }
             }
 

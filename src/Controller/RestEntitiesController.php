@@ -2,6 +2,7 @@
 namespace Kinbalam\RestAPI\Controller;
 
 use Kinbalam\RestAPI\Controller\AppController as BaseController;
+use Cake\Event\Event;
 
 class RestEntitiesController extends BaseController {
     public $Model;
@@ -38,7 +39,14 @@ class RestEntitiesController extends BaseController {
         $this->request->allowMethod(['delete']);
         $entity = $this->Model->get($id);
         if($entity) {
-            if($this->Model->delete($entity))
+            $event = new Event('RestAPI.Entities.beforeDelete', $this, [
+                'data' => $entity,
+                'table' => $this->Model->getTable()
+            ]);
+    
+            $this->getEventManager()->dispatch($event);
+            
+            if(!$event->isStopped() && $this->Model->delete($entity))
             {
                 $this->data = ["OK"];
             }
@@ -50,7 +58,14 @@ class RestEntitiesController extends BaseController {
         $this->request->allowMethod(['post']);
         $entity = $this->Model->newEntity($this->request->getData());
 
-        if($this->Model->save($entity))
+        $event = new Event('RestAPI.Entities.beforeCreate', $this, [
+            'data' => $entity,
+            'table' => $this->Model->getTable()
+        ]);
+
+        $this->getEventManager()->dispatch($event);
+
+        if(!$event->isStopped() && $this->Model->save($entity))
         {
             $this->data = $this->Model->get($entity->id);
         }
@@ -65,10 +80,16 @@ class RestEntitiesController extends BaseController {
         $this->request->allowMethod(['put']);
         $entity = $this->Model->get($id);
 
-        if($entity) 
+        if($entity)
         {
             $entity = $this->Model->patchEntity($entity, $this->request->getData());
-            if($this->Model->save($entity))
+            $event = new Event('RestAPI.Entities.beforeUpdate', $this, [
+                'data' => $entity,
+                'table' => $this->Model->getTable()
+            ]);
+    
+            $this->getEventManager()->dispatch($event);
+            if(!$event->isStopped() && $this->Model->save($entity))
             {
                 $this->data = $entity;
             }
