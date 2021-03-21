@@ -50,6 +50,8 @@ class RestEntitiesController extends BaseController {
             {
                 $this->data = ["OK"];
             }
+        } else {
+            throw new \Cake\Network\Exception\HttpException('Record does not exist', 404);
         }
     }
 
@@ -65,13 +67,20 @@ class RestEntitiesController extends BaseController {
 
         $this->getEventManager()->dispatch($event);
 
-        if(!$event->isStopped() && $this->Model->save($entity))
+        if($event->isStopped())
+        {
+            throw new \Cake\Network\Exception\HttpException('Could not save record', 500);
+        }
+
+        if(!empty($event->getResult()['data'])) {
+            $entity = $event->getResult()['data'];
+        }
+
+        if($this->Model->save($entity)) 
         {
             $this->data = $this->Model->get($entity->id);
-        }
-        else
-        {
-            throw new \Cake\Network\Exception\HttpException('Could not save record', 400);
+        } else {
+            throw new \Cake\Network\Exception\HttpException('Could not save record', 500);
         }
     }
 
@@ -79,7 +88,6 @@ class RestEntitiesController extends BaseController {
     {
         $this->request->allowMethod(['put']);
         $entity = $this->Model->get($id);
-
         if($entity)
         {
             $entity = $this->Model->patchEntity($entity, $this->request->getData());
@@ -89,12 +97,25 @@ class RestEntitiesController extends BaseController {
             ]);
     
             $this->getEventManager()->dispatch($event);
-            if(!$event->isStopped() && $this->Model->save($entity))
+            if($event->isStopped())
             {
-                $this->data = $entity;
+                throw new \Cake\Network\Exception\HttpException('Could not save record', 500);
             }
+
+            if(!empty($event->getResult()['data'])) {
+                $entity = $event->getResult()['data'];
+            }
+
+            if($this->Model->save($entity)) {
+                $this->data = $entity;
+            } else {
+                throw new \Cake\Network\Exception\HttpException('Could not save record', 500);
+            }
+        } else {
+            throw new \Cake\Network\Exception\HttpException('Record does not exist', 404);
         }
     }
+
     protected function configureModel($resource)
     {
         $this->Model = $this->loadModel($resource);
