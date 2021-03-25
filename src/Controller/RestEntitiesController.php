@@ -118,6 +118,15 @@ class RestEntitiesController extends BaseController {
 
     protected function configureModel($resource)
     {
-        $this->Model = $this->loadModel($resource);
+        $event = new Event('RestAPI.Entities.beforeLoadModel', $this, [
+            'resource' => $resource
+        ]);
+
+        $this->getEventManager()->dispatch($event);
+        if(!empty($event->getResult()['model'])) {
+            $this->Model = $event->getResult()['model'];
+        } else {
+            $this->Model = $this->loadModel($resource);
+        }
     }
 }
