@@ -8,11 +8,18 @@ use \Cake\Event\Event;
 class AppController extends BaseController
 {
     protected $actions = null;
+    protected $user;
+
     public function initialize() 
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Authentication.Authentication');
+    }
+
+    public function beforeFilter($event) {
+        parent::beforeFilter($event);
+        $this->user = $this->Authentication->getResult()->getData();
     }
 
     protected function defineAction($method, $url, $rel) {

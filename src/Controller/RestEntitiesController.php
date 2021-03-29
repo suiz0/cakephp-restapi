@@ -60,9 +60,11 @@ class RestEntitiesController extends BaseController {
         $this->request->allowMethod(['post']);
         $entity = $this->Model->newEntity($this->request->getData());
 
-        $event = new Event('RestAPI.Entities.beforeCreate', $this, [
+        $event = new Event('RestAPI.Entities.beforeSave', $this, [
             'data' => $entity,
-            'table' => $this->Model->getTable()
+            'table' => $this->Model->getTable(),
+            'action' => 'add',
+            'user' => $this->user
         ]);
 
         $this->getEventManager()->dispatch($event);
@@ -91,9 +93,11 @@ class RestEntitiesController extends BaseController {
         if($entity)
         {
             $entity = $this->Model->patchEntity($entity, $this->request->getData());
-            $event = new Event('RestAPI.Entities.beforeUpdate', $this, [
+            $event = new Event('RestAPI.Entities.beforeSave', $this, [
                 'data' => $entity,
-                'table' => $this->Model->getTable()
+                'table' => $this->Model->getTable(),
+                'action' => 'update',
+                'user' => $this->user
             ]);
     
             $this->getEventManager()->dispatch($event);
