@@ -17,7 +17,7 @@ class AppController extends BaseController
         $this->loadComponent('Authentication.Authentication');
     }
 
-    public function beforeFilter($event) {
+    public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
         $this->user = $this->Authentication->getResult()->getData();
     }
