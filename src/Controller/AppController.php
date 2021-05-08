@@ -4,6 +4,7 @@ namespace Kinbalam\RestAPI\Controller;
 
 use App\Controller\AppController as BaseController;
 use \Cake\Event\Event;
+use Kinbalam\RestAPI\Model\Domain\Configuration;
 
 class AppController extends BaseController
 {
@@ -14,12 +15,19 @@ class AppController extends BaseController
     {
         parent::initialize();
         $this->loadComponent('RequestHandler');
-        $this->loadComponent('Authentication.Authentication');
+
+        if(Configuration::IsAuthEnabled()) {
+            $this->loadComponent('Authentication.Authentication');
+        }
+            
     }
 
     public function beforeFilter(Event $event) {
         parent::beforeFilter($event);
-        $this->user = $this->Authentication->getResult()->getData();
+
+        if(isset($this->Authentication)) {
+            $this->user = $this->Authentication->getResult()->getData();
+        }
     }
 
     protected function defineAction($method, $url, $rel) {

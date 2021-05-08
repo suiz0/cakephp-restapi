@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Cake\Core\BasePlugin;
 use Cake\Core\Configure;
+use Kinbalam\RestAPI\Model\Domain\Configuration;
 
 /**
  * Plugin for RestAPI
@@ -19,18 +20,21 @@ class Plugin extends BasePlugin implements AuthenticationServiceProviderInterfac
 {
     public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $service = new AuthenticationService();
+        if(Configuration::IsAuthEnabled()) {
+            $service = new AuthenticationService();
+            $service->loadIdentifier('Authentication.JwtSubject', Configure::read('RestAPI.auth.identity'));
+            $service->loadAuthenticator('Authentication.Jwt', Configure::read('RestAPI.auth.jwt'));
 
-        $service->loadIdentifier('Authentication.JwtSubject', Configure::read('RestAPI.auth.identity'));
-        $service->loadAuthenticator('Authentication.Jwt', Configure::read('RestAPI.auth.jwt'));
-
-        return $service;
+            return $service;
+        }
     }
 
     public function middleware($middlewareQueue)
     {
-        $authentication = new AuthenticationMiddleware($this);
-        $middlewareQueue->add($authentication);
+        if(Configuration::IsAuthEnabled()) {
+            $authentication = new AuthenticationMiddleware($this);
+            $middlewareQueue->add($authentication);
+        }
 
         return $middlewareQueue;
     }
